@@ -1,15 +1,15 @@
 int led=13;
 
-int crashRgbLedPin[3][3]={{22,24,26},{28,30,32},{34,36,38}};
-int crashPin[3]={31,33,35};
-int humanDetectPin[3]={7,39,41};
-int ultrasonicTrigPin[3]={37,41,45};
-int ultrasonicEchoPin[3]={39,43,47};
-unsigned  long ultrasonicPreviousTime[3];
-int ultrasonicRgbLedPin[3][3]={{40,42,44},{8,9,10},{7,6,5}};
-int handDetectCount[3]={0,0,0};
-bool handCountFalg[3]={1,1,1};
-bool startFlag[3]={0,0,0};//the flag will set true when botton is put in the machine
+int crashRgbLedPin[4][3]={{22,24,26},{28,30,32},{34,36,38},{14,15,16}};
+int crashPin[4]={31,33,35,17};
+int humanDetectPin[4]={7,39,41,18};
+int ultrasonicTrigPin[4]={37,41,45,19};
+int ultrasonicEchoPin[4]={39,43,47,20};
+unsigned  long ultrasonicPreviousTime[4];
+int ultrasonicRgbLedPin[4][3]={{40,42,44},{8,9,10},{7,6,5},{2,3,4}};
+int handDetectCount[4]={0,0,0};
+bool handCountFalg[4]={1,1,1};
+bool startFlag[4]={0,0,0};//the flag will set true when botton is put in the machine
 void setup() {
   // put your setup code here, to run once:
  Serial.begin(9600);
@@ -19,7 +19,7 @@ void setup() {
  initUltrasonicLedPin();
 }
 void loop() {
-  for(int i=0;i<3;i++){
+  for(int i=0;i<4;i++){
     if(crash(i)){
      crashRgbLed(i,1,0,0);
       handDetectCount[i]=0;
@@ -28,7 +28,7 @@ void loop() {
       startFlag[i]=1;
     }
   }
-  for(int i=0;i<3;i++){
+  for(int i=0;i<4;i++){
     if(millis()-ultrasonicPreviousTime[i]>250){
        ultrasonicPreviousTime[i]= millis();
         long cm=ultrasonic(i);
@@ -62,14 +62,14 @@ void loop() {
   }
 }
 void initCrashPin(){
-  for(int i=0;i<3;i++)
+  for(int i=0;i<4;i++)
     pinMode(crashPin[i],0);
 }
 bool crash(int index){
   return digitalRead(crashPin[index]);
 }
 void initCrashRgbLedPin(){
-   for(int i=0;i<3;i++)
+   for(int i=0;i<4;i++)
      for(int j=0;j<3;j++)
       pinMode(crashRgbLedPin[i][j],1);
 }
@@ -79,7 +79,7 @@ void crashRgbLed(int index,bool r,bool g,bool b){
   digitalWrite(crashRgbLedPin[index][2],b);
 }
 void initUltrasonicLedPin(){
-   for(int i=0;i<3;i++)
+   for(int i=0;i<4;i++)
      for(int j=0;j<3;j++)
       pinMode(ultrasonicRgbLedPin[i][j],1);
 }
@@ -89,7 +89,7 @@ void ultrasonicRgbLed(int index,bool r,bool g,bool b){
   digitalWrite(ultrasonicRgbLedPin[index][2],b);
 }
 void initUltrasonic(){
- for(int i=0;i<3;i++){
+ for(int i=0;i<4;i++){
   pinMode(ultrasonicTrigPin[i],1);
   pinMode(ultrasonicEchoPin[i],0);
   ultrasonicPreviousTime[i]=millis();
