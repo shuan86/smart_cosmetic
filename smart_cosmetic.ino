@@ -28,8 +28,16 @@ void loop() {
   for(int i=0;i<4;i++){
     if(crash(i)){
      crashRgbLed(i,0,0,0);
-      handDetectCount[i]=0;
-      startFlag[i]=0;//
+   //   handDetectCount[i]=0;
+     // startFlag[i]=0;//
+     /*  for(int x=0;x<4;x++)
+     {
+        crashRgbLed(x,0,0,0);
+      handDetectCount[x]=0;
+      startFlag[x]=0;//
+     }*/
+
+
     }else{
       crashRgbLed(i,0,1,0);
       startFlag[i]=1;
@@ -79,7 +87,7 @@ void loop() {
             startFlag[x]=0;
         order=0;
         Serial.print("order");
-        delay(5000);
+        delay(2000);
       }
      Serial.print("handDetectCount");
       Serial.print(i);
