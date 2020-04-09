@@ -1,15 +1,15 @@
 int led=13;
 
-int crashRgbLedPin[4][3]={{22,24,26},{28,30,32},{34,36,38},{14,15,16}};
+int crashRgbLedPin[4][3]={{22,24,26},{28,30,32},{34,36,38},{14,15,53}};
 int crashPin[4]={31,33,35,17};
 int humanDetectPin[4]={7,39,41,18};
 int ultrasonicTrigPin[4]={37,41,45,19};
 int ultrasonicEchoPin[4]={39,43,47,20};
 unsigned  long ultrasonicPreviousTime[4];
-int ultrasonicRgbLedPin[4][3]={{40,42,44},{8,9,10},{7,6,5},{2,3,4}};
-int handDetectCount[4]={0,0,0};
-bool handCountFalg[4]={1,1,1};
-bool startFlag[4]={0,0,0};//the flag will set true when botton is put in the machine
+int ultrasonicRgbLedPin[4][3]={{52,16,12},{8,9,10},{7,6,5},{2,3,13}};
+int handDetectCount[4]={0,0,0,0};
+bool handCountFalg[4]={1,1,1,1};
+bool startFlag[4]={0,0,0,0};//the flag will set true when botton is put in the machine
 int order=0;
 void setup() {
   // put your setup code here, to run once:
@@ -18,12 +18,18 @@ void setup() {
  initCrashPin();
  initUltrasonic();
  initUltrasonicLedPin();
+  for(int i=0;i<4;i++)
+  {
+     crashRgbLed(i,0,0,0);
+      ultrasonicRgbLed(i,0,0,0);
+  }
 }
 void loop() {
   for(int i=0;i<4;i++){
     if(crash(i)){
-     crashRgbLed(i,1,0,0);
+     crashRgbLed(i,0,0,0);
       handDetectCount[i]=0;
+      startFlag[i]=0;//
     }else{
       crashRgbLed(i,0,1,0);
       startFlag[i]=1;
@@ -33,7 +39,7 @@ void loop() {
   int i=order;
   
  // for(int i=0;i<4;i++){
-    if(millis()-ultrasonicPreviousTime[i]>250){
+    if(startFlag[i]==1&&millis()-ultrasonicPreviousTime[i]>250){
        ultrasonicPreviousTime[i]= millis();
         long cm=ultrasonic(i);
         if( cm<6){
@@ -41,8 +47,8 @@ void loop() {
                 handDetectCount[i]++;
                 handCountFalg[i]=0;
                 order++;
-                 if(order==3)
-                    order=0;
+                
+                   
             }
         }
         else{
@@ -57,6 +63,9 @@ void loop() {
         else if(handDetectCount[j]>3){
           ultrasonicRgbLed(j,1,0,0);
         }
+        else if(handDetectCount[j]==0){
+          ultrasonicRgbLed(j,0,0,0);
+        }
         else{
           ultrasonicRgbLed(j,0,1,0);
         }
@@ -65,6 +74,13 @@ void loop() {
         ultrasonicRgbLed(j,0,0,0);
       }
     }
+     if(order==4){
+        for(int x=0;x<4;x++)
+            startFlag[x]=0;
+        order=0;
+        Serial.print("order");
+        delay(5000);
+      }
      Serial.print("handDetectCount");
       Serial.print(i);
       Serial.println(":");
