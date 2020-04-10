@@ -55,7 +55,10 @@ void loop() {
                 handDetectCount[i]++;
                 handCountFalg[i]=0;
                 order++;
-                
+                 ultrasonicRgbLed(i,0,0,0);
+                 delay(500);
+                 ultrasonicRgbLed(i,0,0,1);
+                 delay(500);
                    
             }
         }
@@ -87,8 +90,19 @@ void loop() {
             startFlag[x]=0;
         order=0;
         Serial.print("order");
-        delay(2000);
+        //delay(2000);
       }
+      if(handDetectCount[3]==4){
+        for(int x=0;x<4;x++)
+        {
+          ultrasonicRgbLed(x,0,0,0);
+          handDetectCount[x]=0;
+          startFlag[x]=0;//
+        }
+        delay(1000);
+      }
+
+
      Serial.print("handDetectCount");
       Serial.print(i);
       Serial.println(":");
