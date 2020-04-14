@@ -68,38 +68,55 @@ void loop() {
     }
     for(int j=0;j<4;j++){
       if(startFlag[j]&&crash(j)==0){
-        if(handDetectCount[j]==3){
+        if(order==4){
+          /* for(int x=0;x<4;x++){
+          // startFlag[x]=0;
+           ultrasonicRgbLed(x,0,0,0);
+           
+           }*/
+           /* Serial.println("order!!!");
+             delay(2000);*/
+        }
+
+       
+        else if(handDetectCount[j]>2){
+          ultrasonicRgbLed(j,1,0,0);
+        }
+         else if(handDetectCount[j]==2){
           ultrasonicRgbLed(j,1,1,0);
         }
-        else if(handDetectCount[j]>3){
-          ultrasonicRgbLed(j,1,0,0);
+        else if(handDetectCount[j]==1){
+          ultrasonicRgbLed(j,0,1,0);
         }
         else if(handDetectCount[j]==0){
           ultrasonicRgbLed(j,0,0,0);
         }
-        else{
+        /*else{
           ultrasonicRgbLed(j,0,1,0);
-        }
+        }*/
       }
       else{
         ultrasonicRgbLed(j,0,0,0);
       }
     }
      if(order==4){
-        for(int x=0;x<4;x++)
-            startFlag[x]=0;
+        for(int x=0;x<4;x++){
+           startFlag[x]=0;
+         //  ultrasonicRgbLed(x,0,0,0);
+        }
+            
         order=0;
         Serial.print("order");
-        //delay(2000);
+      //  delay(2000);
       }
-      if(handDetectCount[3]==4){
+      if(handDetectCount[3]==3){
         for(int x=0;x<4;x++)
         {
           ultrasonicRgbLed(x,0,0,0);
           handDetectCount[x]=0;
           startFlag[x]=0;//
         }
-        delay(1000);
+        //delay(1000);
       }
 
 
